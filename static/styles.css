@@ -1,0 +1,330 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.upload-section {
+    margin-bottom: 2rem;
+}
+
+.upload-area {
+    background-color: white;
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #2980b9;
+    background-color: #f8f9fa;
+}
+
+.upload-content {
+    color: #666;
+}
+
+.upload-content svg {
+    margin-bottom: 1rem;
+}
+
+.sub-text {
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
+.preview-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+/* Scroll container */
+.image-sequence-container {
+    position: relative;
+    max-height: 600px;  /* Limit height for vertical scrolling */
+    overflow-y: auto;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.image-sequence {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    justify-items: center;
+    padding: 0.5rem;
+}
+
+/* Webkit scrollbar styling */
+.image-sequence-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.image-sequence-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.image-sequence-container::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 4px;
+}
+
+.image-sequence-container::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
+.image-container {
+    position: relative;
+    width: 180px;  /* Fixed width for grid items */
+    height: 180px;  /* Fixed height for grid items */
+    transition: transform 0.2s ease;
+    padding: 0.5rem;
+    padding-top: 1.5rem;  /* More space for frame number */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.image-container:hover {
+    transform: translateY(-2px);
+}
+
+.image-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 2px solid #e0e0e0;
+    cursor: move;
+    transition: border-color 0.2s ease;
+}
+
+/* Frame number */
+.frame-number {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c3e50;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 2;
+    pointer-events: none;
+    border: 2px solid white;
+}
+
+/* Drop indicators */
+.image-container.drop-left::before,
+.image-container.drop-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+.image-container.drop-left::before {
+    left: -2px;
+    border-radius: 2px 0 0 2px;
+}
+
+.image-container.drop-right::after {
+    right: -2px;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Arrow indicators */
+.image-container.drop-left::after,
+.image-container.drop-right::before {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #3498db;
+    background: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    pointer-events: none;
+}
+
+.image-container.drop-left::after {
+    left: -12px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.image-container.drop-right::before {
+    right: -12px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.1);
+}
+
+.controls {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.settings {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.setting-group label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.setting-group input[type="number"] {
+    width: 120px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.setting-group input[type="range"] {
+    width: 200px;
+}
+
+.primary-button, .secondary-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-button {
+    background-color: #3498db;
+    color: white;
+    flex: 1;
+}
+
+.primary-button:hover {
+    background-color: #2980b9;
+}
+
+.primary-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.secondary-button {
+    background-color: #e74c3c;
+    color: white;
+    min-width: 100px;
+}
+
+.secondary-button:hover {
+    background-color: #c0392b;
+}
+
+.result-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.gif-preview {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.gif-preview img {
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+} 

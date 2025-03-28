@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GIF Generator</h1>
+        <div class="upload-section">
+            <div class="upload-area" id="dropZone">
+                <input type="file" id="fileInput" multiple accept="image/*" hidden>
+                <div class="upload-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag and drop images here or click to select</p>
+                    <p class="sub-text">Supported formats: JPG, PNG</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <h2>Image Sequence</h2>
+            <div class="image-sequence-container">
+                <div class="image-sequence" id="imageSequence"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="settings">
+                <div class="setting-group">
+                    <label for="frameDelay">Frame Delay (ms):</label>
+                    <input type="number" id="frameDelay" value="500" min="100" max="2000" step="100">
+                </div>
+                <div class="setting-group">
+                    <label for="quality">Quality:</label>
+                    <input type="range" id="quality" min="1" max="20" value="10">
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="resetBtn" class="secondary-button">Reset</button>
+                <button id="generateBtn" class="primary-button" disabled>Generate GIF</button>
+            </div>
+        </div>
+
+        <div class="result-section" id="resultSection" style="display: none;">
+            <h2>Generated GIF</h2>
+            <div class="gif-preview">
+                <img id="gifPreview" alt="Generated GIF">
+            </div>
+            <button id="downloadBtn" class="secondary-button">Download GIF</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
